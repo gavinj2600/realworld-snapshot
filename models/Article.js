@@ -23,7 +23,7 @@ ArticleSchema.pre('validate', function(next){
 });
 
 ArticleSchema.methods.slugify = function() {
-  this.slug = slug(this.title);
+  this.slug = slug(this.title) + '-' + this._id.toString().slice(-8);
 };
 
 ArticleSchema.methods.updateFavoriteCount = function() {
