@@ -33,6 +33,10 @@ router.post('/:username/follow', limit.write, auth.required, function(req, res, 
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
 
+    if(user._id.toString() === profileId.toString()){
+      return res.status(422).json({errors: {profile: "can't follow yourself"}});
+    }
+
     return user.follow(profileId).then(function(){
       return res.json({profile: req.profile.toProfileJSONFor(user)});
     });
